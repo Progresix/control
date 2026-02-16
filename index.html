@@ -200,6 +200,11 @@
       background: #2563eb;
       color: white;
     }
+
+    /* Fix untuk hidden class */
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -682,14 +687,15 @@
         if (!session?.user) return;
         
         try {
+          // Coba cek apakah kolom order ada dengan mencoba insert tanpa order
           const { data, error } = await supabaseClient
             .from('links')
             .insert({ 
               user_id: session.user.id, 
               title: type === 'social' ? 'New Social' : 'New Link', 
-              url: type === 'social' ? 'https://instagram.com/' : 'https://', 
-              type: type,
-              order: links.length
+              url: type === 'social' ? 'https://instagram.com/' : 'https://example.com', 
+              type: type
+              // Tidak menyertakan order karena kolom mungkin tidak ada
             })
             .select()
             .single();
@@ -783,17 +789,20 @@
             
           if (profErr) throw profErr;
           
-          // Update links with order
+          // Update links - tanpa order karena kolom mungkin tidak ada
           for (let i = 0; i < links.length; i++) {
             const link = links[i];
+            
+            // Hanya update field yang pasti ada
+            const updateData = { 
+              title: link.title, 
+              url: link.url, 
+              type: link.type
+            };
+            
             const { error: linkErr } = await supabaseClient
               .from('links')
-              .update({ 
-                title: link.title, 
-                url: link.url, 
-                type: link.type,
-                order: i
-              })
+              .update(updateData)
               .eq('id', link.id);
               
             if (linkErr) throw linkErr;
@@ -835,31 +844,22 @@
             };
           }
           
-          // Fetch links
+          // Fetch links - urutkan berdasarkan created_at sebagai fallback
           let { data: lnks, error: linksErr } = await supabaseClient
             .from('links')
             .select('*')
             .eq('user_id', session.user.id)
-            .order('order', { ascending: true, nullsFirst: false });
+            .order('created_at', { ascending: true });
             
-          if (linksErr && linksErr.message.includes('column')) {
-            const { data: fallbackLinks, error: fallbackErr } = await supabaseClient
-              .from('links')
-              .select('*')
-              .eq('user_id', session.user.id)
-              .order('created_at', { ascending: true });
-              
-            if (!fallbackErr) {
-              lnks = fallbackLinks;
-            }
-          } else if (linksErr) {
-            throw linksErr;
+          if (linksErr) {
+            console.warn('Error fetching links:', linksErr);
+            lnks = [];
           }
           
           if (lnks) {
             links = lnks.map(link => ({
               ...link,
-              type: isSocialUrl(link.url) ? 'social' : link.type
+              type: isSocialUrl(link.url) ? 'social' : (link.type || 'square')
             }));
           } else {
             links = [];
