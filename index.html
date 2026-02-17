@@ -3,38 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Admin Hub | Bagus Ardianto</title>
+  <title>Progresix Admin Hub</title>
   <meta name="robots" content="noindex, nofollow">
-  <!-- Tailwind & Fonts -->
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-  <!-- Supabase JS -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <!-- SortableJS untuk drag-drop -->
+  
+  <!-- Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  
   <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Inter', sans-serif; background: #fafafa; color: #111; }
-    .card { background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; }
-    .input-modern { background: #f5f5f5; border-radius: 18px; padding: 16px 18px; font-size: 16px; border: 1.5px solid transparent; transition: all 0.15s; width: 100%; }
-    .input-modern:focus { border-color: #2563eb; background: white; outline: none; box-shadow: 0 4px 12px rgba(37,99,235,0.08); }
-    .btn-primary { background: #2563eb; color: white; font-weight: 600; border-radius: 40px; padding: 16px 28px; font-size: 16px; transition: all 0.2s; border: none; cursor: pointer; width: 100%; }
-    .btn-primary:active { transform: scale(0.98); background: #1d4ed8; }
-    .btn-secondary { background: white; color: #111; border: 1.5px solid #e5e5e5; border-radius: 40px; padding: 12px 20px; font-size: 15px; font-weight: 600; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-secondary:active { background: #f5f5f5; }
+    * { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent; 
+      margin: 0;
+      padding: 0;
+    }
+    
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: #f8fafc; 
+      color: #0f172a; 
+    }
+    
+    /* Custom scrollbar */
+    .scrollbar-thin::-webkit-scrollbar { 
+      width: 4px; 
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb { 
+      background: #cbd5e1; 
+      border-radius: 20px; 
+    }
+    
+    /* Touch-friendly */
+    .touch-target { 
+      min-height: 44px; 
+      min-width: 44px; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
+    
+    /* Card styles */
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border: 1px solid #f1f5f9;
+    }
+    
+    /* Input styles */
+    .input-modern {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 16px 20px;
+      font-size: 16px;
+      border: 1.5px solid transparent;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .input-modern:focus {
+      border-color: #3b82f6;
+      background: white;
+      outline: none;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      background: #0f172a;
+      color: white;
+      font-weight: 600;
+      border-radius: 40px;
+      padding: 16px 28px;
+      font-size: 16px;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-primary:active { 
+      transform: scale(0.98); 
+      background: #1e293b; 
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #0f172a;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 40px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .btn-secondary:active { 
+      background: #f8fafc; 
+    }
+    
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #f1f5f9;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-around;
+      z-index: 50;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      border-radius: 40px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .nav-item.active {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
     
     /* Link item styling */
     .link-item { 
       background: white; 
       border-radius: 20px; 
-      border: 1px solid #f0f0f0; 
+      border: 1px solid #f1f5f9; 
       padding: 16px;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
       margin-bottom: 8px;
       position: relative;
     }
     
-    /* Drag handle - area khusus untuk drag */
     .drag-handle {
       position: absolute;
       left: 8px;
@@ -45,26 +158,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #9ca3af;
+      color: #94a3b8;
       cursor: grab;
       border-radius: 8px;
-      transition: all 0.2s;
-      z-index: 5;
     }
     
     .drag-handle:active {
       cursor: grabbing;
-      background: #f0f0f0;
+      background: #f1f5f9;
     }
     
-    /* Konten link - tidak bisa di-drag */
     .link-content {
       margin-left: 40px;
       margin-right: 40px;
-      pointer-events: auto;
     }
     
-    /* Delete button - tanpa inline onclick */
     .delete-link {
       position: absolute;
       right: 12px;
@@ -75,10 +183,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #9ca3af;
+      color: #94a3b8;
       border-radius: 8px;
-      transition: all 0.2s;
-      z-index: 5;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -93,143 +199,161 @@
     /* Sortable styling */
     .sortable-ghost {
       opacity: 0.3;
-      background: #e5e7eb;
-      border: 2px dashed #2563eb;
+      background: #e2e8f0;
+      border: 2px dashed #3b82f6;
     }
     
     .sortable-drag {
       opacity: 0.9;
-      transform: scale(1.02) rotate(0.5deg);
+      transform: scale(1.02);
       box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
-      cursor: grabbing !important;
     }
     
-    /* Scroll tetap lancar */
-    .admin-scroll {
-      -webkit-overflow-scrolling: touch;
-      overflow-y: auto;
+    /* Table styling */
+    .product-table th {
+      background: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 16px 20px;
     }
     
-    .admin-scroll::-webkit-scrollbar { width: 4px; }
-    .admin-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 20px; }
-    
-    .status-badge { 
-      background: #e6f7e6; 
-      color: #0a7143; 
-      font-size: 13px; 
-      font-weight: 600; 
-      padding: 6px 14px; 
-      border-radius: 40px; 
-      white-space: nowrap; 
+    .product-table td {
+      padding: 20px;
+      border-bottom: 1px solid #f1f5f9;
     }
     
-    .touch-target { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
-    .mobile-sticky-header { position: sticky; top: 0; z-index: 40; background: white/90; backdrop-filter: blur(8px); border-bottom: 1px solid #eee; }
-    
-    /* Tab styling untuk sosial vs regular */
-    .link-tabs {
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 100;
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 12px;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
     
+    .modal-content {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+    
+    /* Status badge */
+    .status-badge {
+      background: #e6f7e6;
+      color: #0a7143;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 40px;
+      white-space: nowrap;
+    }
+    
+    /* Loading spinner */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Hide scrollbar for mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Tab styling */
     .tab-btn {
       padding: 10px 20px;
       border-radius: 40px;
       font-size: 14px;
       font-weight: 600;
-      background: transparent;
-      border: none;
-      color: #666;
       transition: all 0.2s;
       cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #64748b;
     }
     
     .tab-btn.active {
-      background: #2563eb;
-      color: white;
-    }
-    
-    .social-link-item {
-      background: linear-gradient(145deg, #ffffff, #f8fafc);
-      border-left: 4px solid;
-    }
-    
-    .social-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    /* Quick action buttons */
-    .quick-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid #f0f0f0;
-    }
-    
-    .quick-action-btn {
-      padding: 8px 16px;
-      border-radius: 40px;
-      background: #f5f5f5;
-      font-size: 12px;
-      font-weight: 600;
-      color: #444;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .quick-action-btn:hover {
-      background: #e5e5e5;
-    }
-    
-    .quick-action-btn.primary {
-      background: #2563eb;
+      background: #0f172a;
       color: white;
     }
 
-    /* Fix untuk hidden class */
+    /* Image preview */
+    .image-preview {
+      width: 96px;
+      height: 96px;
+      border-radius: 16px;
+      background-size: cover;
+      background-position: center;
+      background-color: #f1f5f9;
+    }
+
+    /* Hidden utility */
     .hidden {
       display: none !important;
     }
   </style>
 </head>
 <body class="antialiased">
-  <div id="app" class="min-h-screen flex flex-col bg-[#fafafa]">
-    <div id="login-view" class="hidden flex-1 items-center justify-center p-5"></div>
-    <div id="admin-view" class="hidden flex-1 flex flex-col"></div>
-    <div id="loading-view" class="hidden flex-1 items-center justify-center">
-      <div class="text-center">
-        <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p class="text-gray-600">Loading your data...</p>
-      </div>
-    </div>
-  </div>
+  <div id="app" class="min-h-screen bg-slate-50"></div>
 
   <script>
     (function() {
       // ==================== KONFIGURASI ====================
-      const SUPABASE_URL = 'https://dkftqhkpwymbdtpznwto.supabase.co';
-      const SUPABASE_KEY = 'sb_publishable_Hlzx5XRu6hxnoxOCNKk7vg_9829kGve';
-      const PUBLIC_URL = 'https://start.progresix.site';
+      const CONFIG = {
+        SUPABASE_URL: 'https://dkftqhkpwymbdtpznwto.supabase.co',
+        SUPABASE_ANON_KEY: 'sb_publishable_Hlzx5XRu6hxnoxOCNKk7vg_9829kGve',
+        PUBLIC_URL: 'https://start.progresix.site'
+      };
 
-      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      // Global Supabase client
+      const supabaseClient = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+
+      // App state
+      const AppState = {
+        session: null,
+        profile: {
+          id: null,
+          name: '',
+          bio: '',
+          avatar_url: '',
+          bg_url: '',
+          text_color: '#3b82f6'
+        },
+        products: [],
+        links: [],
+        currentView: 'products',
+        saveStatus: null,
+        activeTab: 'all',
+        sortableInstances: {}
+      };
 
       // ==================== ICONS ====================
       const Icons = {
+        products: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+        links: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+        profile: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
         instagram: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
         github: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`,
         x: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M20 4l-6.768 6.768"/></svg>`,
@@ -242,7 +366,8 @@
         drag: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>`,
         plus: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
         alert: () => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>`,
-        share: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`
+        share: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+        edit: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>`
       };
 
       // ==================== UTILITIES ====================
@@ -266,6 +391,15 @@
         ];
         const l = url.toLowerCase();
         return socialDomains.some(domain => l.includes(domain));
+      }
+
+      function formatCurrency(price) {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        }).format(price);
       }
 
       async function compressImage(file, maxWidth = 1200) {
@@ -293,480 +427,8 @@
         });
       }
 
-      // ==================== STATE ====================
-      let session = null;
-      let profile = { id: null, name: '', bio: '', avatar_url: '', bg_url: '', text_color: '#2563eb' };
-      let links = [];
-      let saveStatus = null;
-      let activeTab = 'all'; // 'all', 'social', 'regular'
-      let sortableInstances = {};
-
-      // ==================== DOM ELEMENTS ====================
-      const loginView = document.getElementById('login-view');
-      const adminView = document.getElementById('admin-view');
-      const loadingView = document.getElementById('loading-view');
-
-      function showLoading() {
-        loginView.classList.add('hidden');
-        adminView.classList.add('hidden');
-        loadingView.classList.remove('hidden');
-        loadingView.classList.add('flex');
-      }
-
-      function hideLoading() {
-        loadingView.classList.add('hidden');
-        loadingView.classList.remove('flex');
-      }
-
-      // ==================== RENDER LOGIN ====================
-      function renderLogin() {
-        loginView.classList.remove('hidden');
-        loginView.classList.add('flex');
-        adminView.classList.add('hidden');
-        loadingView.classList.add('hidden');
-
-        loginView.innerHTML = `
-          <div class="w-full max-w-sm px-4">
-            <div class="mb-10 text-center">
-              <h1 class="text-4xl font-bold tracking-tight">admin<span class="text-blue-600">.</span></h1>
-              <p class="text-gray-500 text-sm mt-3">Sign in to manage your links</p>
-            </div>
-            <form id="login-form" class="card p-8 space-y-6">
-              <input name="email" type="email" placeholder="Email address" class="input-modern" required />
-              <input name="password" type="password" placeholder="Password" class="input-modern" required />
-              <button class="btn-primary touch-target">Continue →</button>
-            </form>
-          </div>
-        `;
-        document.getElementById('login-form').addEventListener('submit', handleLogin);
-      }
-
-      // ==================== RENDER ADMIN ====================
-      function renderAdmin() {
-        loginView.classList.add('hidden');
-        adminView.classList.remove('hidden');
-        adminView.classList.add('flex');
-        loadingView.classList.add('hidden');
-
-        // Update tipe link berdasarkan URL
-        links.forEach(link => {
-          if (isSocialUrl(link.url)) {
-            link.type = 'social';
-          }
-        });
-
-        const socialLinks = links.filter(l => l.type === 'social');
-        const regularLinks = links.filter(l => l.type === 'square' && !isSocialUrl(l.url));
-
-        adminView.innerHTML = `
-          <header class="mobile-sticky-header px-5 py-3 flex items-center justify-between bg-white/95 backdrop-blur-sm">
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-xl tracking-tight">admin<span class="text-blue-600">.</span></span>
-              <span class="status-badge text-xs hidden sm:inline-block">${session?.user?.email?.split('@')[0] || 'draft'}</span>
-            </div>
-            <div class="flex gap-2">
-              <a href="${PUBLIC_URL}" target="_blank" class="btn-secondary py-2.5 px-4 text-sm">${Icons.share()} <span class="hidden sm:inline">Preview</span></a>
-              <button id="logout-btn" class="btn-secondary py-2.5 px-4 text-sm text-red-600 border-red-200">Logout</button>
-            </div>
-          </header>
-
-          <div class="flex-1 overflow-y-auto admin-scroll p-5 pb-32">
-            <div class="max-w-3xl mx-auto space-y-6">
-              
-              <!-- Profile images row -->
-              <div class="grid grid-cols-2 gap-4">
-                <div class="card p-5">
-                  <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Avatar</h3>
-                  <div class="flex flex-col items-center gap-3">
-                    <div class="relative w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
-                      <div id="avatar-preview" class="w-full h-full bg-cover bg-center" style="background-image: ${profile.avatar_url ? `url('${profile.avatar_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23e0e0e0\\\'/></svg>\')'};"></div>
-                      <div id="avatar-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden"><div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
-                    </div>
-                    <label class="cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
-                      Upload
-                      <input type="file" id="avatar-file" class="hidden" accept="image/*" />
-                    </label>
-                  </div>
-                </div>
-
-                <div class="card p-5">
-                  <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Background</h3>
-                  <div class="flex flex-col items-center gap-3">
-                    <div class="relative w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
-                      <div id="bg-preview" class="w-full h-full bg-cover bg-center" style="background-image: ${profile.bg_url ? `url('${profile.bg_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23d9d9d9\\\'/></svg>\')'};"></div>
-                      <div id="bg-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden"><div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
-                    </div>
-                    <label class="cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
-                      Upload
-                      <input type="file" id="bg-file" class="hidden" accept="image/*" />
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Profile info -->
-              <div class="card p-6 space-y-4">
-                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Profile info</h3>
-                <input type="text" id="profile-name" value="${profile.name || ''}" placeholder="Full name" class="input-modern" />
-                <textarea id="profile-bio" placeholder="Bio" class="input-modern h-24 resize-none">${profile.bio || ''}</textarea>
-                <div class="flex items-center gap-4 pt-2">
-                  <span class="text-sm font-medium text-gray-500">Accent</span>
-                  <input type="color" id="text-color" value="${profile.text_color || '#2563eb'}" class="w-9 h-9 rounded-full border-0 cursor-pointer" />
-                </div>
-              </div>
-
-              <!-- Quick Actions -->
-              <div class="quick-actions">
-                <button id="add-social-link" class="quick-action-btn">
-                  ${Icons.plus()} Add Social
-                </button>
-                <button id="add-regular-link" class="quick-action-btn primary">
-                  ${Icons.plus()} Add Link
-                </button>
-              </div>
-
-              <!-- Tabs -->
-              <div class="link-tabs">
-                <button class="tab-btn ${activeTab === 'all' ? 'active' : ''}" data-tab="all">All (${links.length})</button>
-                <button class="tab-btn ${activeTab === 'social' ? 'active' : ''}" data-tab="social">Social (${socialLinks.length})</button>
-                <button class="tab-btn ${activeTab === 'regular' ? 'active' : ''}" data-tab="regular">Links (${regularLinks.length})</button>
-              </div>
-
-              <!-- Links containers -->
-              <div id="all-links" class="links-container ${activeTab !== 'all' ? 'hidden' : ''}"></div>
-              <div id="social-links" class="links-container ${activeTab !== 'social' ? 'hidden' : ''}"></div>
-              <div id="regular-links" class="links-container ${activeTab !== 'regular' ? 'hidden' : ''}"></div>
-
-              <!-- Save button fixed bottom -->
-              <div class="fixed bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#fafafa] via-[#fafafa] to-transparent pointer-events-none">
-                <button id="save-profile" class="btn-primary max-w-3xl mx-auto block pointer-events-auto shadow-lg">
-                  ${saveStatus === 'success' ? '✓ Saved' : saveStatus === 'saving' ? 'Saving...' : 'Publish changes'}
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-
-        // Render links berdasarkan tab
-        renderLinksByType('all', links);
-        renderLinksByType('social', links.filter(l => l.type === 'social'));
-        renderLinksByType('regular', links.filter(l => l.type === 'square' && !isSocialUrl(l.url)));
-
-        // Setup tabs
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activeTab = btn.dataset.tab;
-            
-            document.querySelectorAll('.links-container').forEach(container => {
-              container.classList.add('hidden');
-            });
-            document.getElementById(`${activeTab}-links`).classList.remove('hidden');
-            
-            // Re-initialize sortable untuk container yang aktif
-            setTimeout(() => initSortableForContainer(activeTab), 50);
-          });
-        });
-
-        attachAdminEvents();
-        
-        // Initialize sortable untuk tab aktif
-        setTimeout(() => initSortableForContainer(activeTab), 100);
-      }
-
-      // ==================== RENDER LINKS PER TAB ====================
-      function renderLinksByType(type, linksToRender) {
-        const container = document.getElementById(`${type}-links`);
-        if (!container) return;
-        
-        if (linksToRender.length === 0) {
-          container.innerHTML = `
-            <div class="card p-8 text-center text-gray-500">
-              ${Icons.alert()}
-              <p class="mt-2">No ${type} links yet.</p>
-            </div>
-          `;
-          return;
-        }
-        
-        container.innerHTML = linksToRender.map(link => `
-          <div class="link-item ${link.type === 'social' ? 'social-link-item' : ''}" 
-               data-id="${link.id}" 
-               data-type="${link.type}"
-               style="${link.type === 'social' ? 'border-left-color: ' + profile.text_color : ''}">
-            
-            <div class="drag-handle">
-              ${Icons.drag()}
-            </div>
-            
-            <button class="delete-link" aria-label="Hapus link"></button>
-            
-            <div class="link-content">
-              <div class="flex items-center gap-3 mb-3">
-                ${link.type === 'social' ? `
-                  <span class="social-icon" style="color: ${profile.text_color}">
-                    ${getSocialIcon(link.url)}
-                  </span>
-                ` : ''}
-                <select class="link-type bg-gray-100 border-0 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 outline-none">
-                  <option value="square" ${link.type === 'square' ? 'selected' : ''}>Card</option>
-                  <option value="social" ${link.type === 'social' ? 'selected' : ''}>Social</option>
-                </select>
-              </div>
-              
-              <input class="link-title bg-transparent w-full text-lg font-semibold outline-none placeholder:text-gray-300 mb-2" 
-                     value="${(link.title || '').replace(/"/g, '&quot;')}" 
-                     placeholder="Link title" />
-                     
-              <input class="link-url bg-transparent w-full text-sm text-gray-500 outline-none" 
-                     value="${(link.url || '').replace(/"/g, '&quot;')}" 
-                     placeholder="https://..." />
-            </div>
-          </div>
-        `).join('');
-
-        // Ganti icon trash di setiap delete button
-        container.querySelectorAll('.delete-link').forEach(btn => {
-          btn.innerHTML = Icons.trash();
-        });
-
-        attachLinkEvents(container);
-      }
-
-      // ==================== ATTACH LINK EVENTS ====================
-      function attachLinkEvents(container) {
-        container.querySelectorAll('.delete-link').forEach(btn => {
-          btn.removeEventListener('click', handleDeleteClick);
-          btn.addEventListener('click', handleDeleteClick);
-        });
-        
-        container.querySelectorAll('.link-type').forEach(select => {
-          select.removeEventListener('change', handleTypeChange);
-          select.addEventListener('change', handleTypeChange);
-        });
-        
-        container.querySelectorAll('.link-title').forEach(input => {
-          input.removeEventListener('input', handleTitleInput);
-          input.addEventListener('input', handleTitleInput);
-        });
-        
-        container.querySelectorAll('.link-url').forEach(input => {
-          input.removeEventListener('input', handleUrlInput);
-          input.addEventListener('input', handleUrlInput);
-        });
-      }
-
-      // ==================== HANDLERS UNTUK LINK ====================
-      function handleDeleteClick(e) {
-        e.stopPropagation();
-        const id = e.target.closest('[data-id]')?.dataset.id;
-        if (id) handleDeleteLink(id);
-      }
-
-      function handleTypeChange(e) {
-        const id = e.target.closest('[data-id]').dataset.id;
-        const link = links.find(l => l.id === id);
-        if (link) {
-          link.type = e.target.value;
-          if (activeTab !== 'all') {
-            renderAdmin(); 
-          } else {
-            // update tampilan jika perlu (icon dll)
-            const container = document.getElementById(`${activeTab}-links`);
-            if (container) attachLinkEvents(container);
-          }
-        }
-      }
-
-      function handleTitleInput(e) {
-        const id = e.target.closest('[data-id]').dataset.id;
-        const link = links.find(l => l.id === id);
-        if (link) link.title = e.target.value;
-      }
-
-      function handleUrlInput(e) {
-        const id = e.target.closest('[data-id]').dataset.id;
-        const link = links.find(l => l.id === id);
-        if (link) {
-          link.url = e.target.value;
-          if (isSocialUrl(link.url)) {
-            link.type = 'social';
-          }
-        }
-      }
-
-      // ==================== SORTABLE INIT ====================
-      function initSortableForContainer(type) {
-        const container = document.getElementById(`${type}-links`);
-        if (!container || container.children.length === 0 || container.children[0].classList.contains('card')) return; // empty placeholder
-        
-        if (sortableInstances[type]) {
-          sortableInstances[type].destroy();
-        }
-        
-        sortableInstances[type] = new Sortable(container, {
-          animation: 150,
-          ghostClass: 'sortable-ghost',
-          dragClass: 'sortable-drag',
-          handle: '.drag-handle',
-          direction: 'vertical',
-          easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
-          onEnd: function(evt) {
-            // Update links array berdasarkan urutan baru
-            const items = Array.from(container.children);
-            const updatedLinks = [];
-            
-            // Ambil link dari container ini
-            items.forEach(item => {
-              const id = item.dataset.id;
-              const link = links.find(l => l.id === id);
-              if (link) updatedLinks.push(link);
-            });
-
-            // Gabungkan dengan link di container lain (yang tidak tampil)
-            const otherLinks = links.filter(l => !updatedLinks.some(ul => ul.id === l.id));
-            
-            if (type === 'all') {
-              links = updatedLinks; // all links sudah lengkap
-            } else if (type === 'social') {
-              links = [...updatedLinks, ...otherLinks];
-            } else if (type === 'regular') {
-              links = [...otherLinks, ...updatedLinks];
-            }
-            
-            setSaveStatus('Reorder');
-            setTimeout(() => setSaveStatus(null), 1000);
-          }
-        });
-      }
-
-      // ==================== ATTACH ADMIN EVENTS ====================
-      function attachAdminEvents() {
-        document.getElementById('avatar-file')?.addEventListener('change', (e) => handleFileUpload(e, 'avatar'));
-        document.getElementById('bg-file')?.addEventListener('change', (e) => handleFileUpload(e, 'bg'));
-        document.getElementById('text-color')?.addEventListener('input', (e) => { profile.text_color = e.target.value; });
-        document.getElementById('profile-name')?.addEventListener('input', (e) => { profile.name = e.target.value; });
-        document.getElementById('profile-bio')?.addEventListener('input', (e) => { profile.bio = e.target.value; });
-        
-        document.getElementById('add-social-link')?.addEventListener('click', () => handleAddLink('social'));
-        document.getElementById('add-regular-link')?.addEventListener('click', () => handleAddLink('square'));
-        
-        document.getElementById('logout-btn')?.addEventListener('click', handleLogout);
-        document.getElementById('save-profile')?.addEventListener('click', handleSave);
-      }
-
-      // ==================== FILE UPLOAD ====================
-      async function handleFileUpload(e, type) {
-        const file = e.target.files[0];
-        if (!file || !session?.user) return;
-        const uploadingEl = type === 'avatar' ? document.getElementById('avatar-uploading') : document.getElementById('bg-uploading');
-        uploadingEl.classList.remove('hidden');
-        try {
-          const compressedBlob = await compressImage(file, type === 'avatar' ? 400 : 1280);
-          const fileName = `${session.user.id}/${type}_${Date.now()}.webp`;
-          const { error: uploadError } = await supabaseClient.storage.from('avatars').upload(fileName, compressedBlob);
-          if (uploadError) throw uploadError;
-          const { data: { publicUrl } } = supabaseClient.storage.from('avatars').getPublicUrl(fileName);
-          if (type === 'avatar') {
-            profile.avatar_url = publicUrl;
-            document.getElementById('avatar-preview').style.backgroundImage = `url('${publicUrl}')`;
-          } else {
-            profile.bg_url = publicUrl;
-            document.getElementById('bg-preview').style.backgroundImage = `url('${publicUrl}')`;
-          }
-        } catch (err) {
-          alert('Upload failed: ' + err.message);
-        } finally {
-          uploadingEl.classList.add('hidden');
-        }
-      }
-
-      // ==================== ADD LINK ====================
-      async function handleAddLink(type = 'square') {
-        if (!session?.user) return;
-        
-        try {
-          // Coba cek apakah kolom order ada dengan mencoba insert tanpa order
-          const { data, error } = await supabaseClient
-            .from('links')
-            .insert({ 
-              user_id: session.user.id, 
-              title: type === 'social' ? 'New Social' : 'New Link', 
-              url: type === 'social' ? 'https://instagram.com/' : 'https://example.com', 
-              type: type
-              // Tidak menyertakan order karena kolom mungkin tidak ada
-            })
-            .select()
-            .single();
-            
-          if (!error && data) {
-            links.push(data);
-            renderAdmin(); 
-          } else {
-            throw error || new Error('Failed to add link');
-          }
-        } catch (err) {
-          console.error('Add link error:', err);
-          alert('Gagal tambah link: ' + err.message);
-        }
-      }
-
-      // ==================== DELETE LINK ====================
-      async function handleDeleteLink(id) {
-        if (!confirm('Delete this link?')) return;
-        try {
-          const { error } = await supabaseClient.from('links').delete().eq('id', id);
-          if (!error) {
-            links = links.filter(l => l.id !== id);
-            renderAdmin(); 
-          } else {
-            throw error;
-          }
-        } catch (err) {
-          console.error('Delete error:', err);
-          alert('Gagal hapus: ' + err.message);
-        }
-      }
-
-      // ==================== LOGIN ====================
-      async function handleLogin(e) {
-        e.preventDefault();
-        showLoading();
-        
-        try {
-          const email = e.target.email.value;
-          const password = e.target.password.value;
-          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          
-          if (error) throw error;
-          
-          session = data.session;
-          await fetchProfileAndLinks();
-          renderAdmin();
-        } catch (err) {
-          console.error('Login error:', err);
-          alert(err.message || 'Login failed');
-          hideLoading();
-          renderLogin();
-        }
-      }
-
-      // ==================== LOGOUT ====================
-      async function handleLogout() {
-        try {
-          await supabaseClient.auth.signOut();
-          session = null;
-          links = [];
-          profile = { id: null, name: '', bio: '', avatar_url: '', bg_url: '', text_color: '#2563eb' };
-          renderLogin();
-        } catch (err) {
-          console.error('Logout error:', err);
-        }
-      }
-
       function setSaveStatus(status) {
-        saveStatus = status;
+        AppState.saveStatus = status;
         const btn = document.getElementById('save-profile');
         if (btn) {
           btn.innerText = status === 'success' ? '✓ Saved' : 
@@ -776,123 +438,870 @@
         }
       }
 
-      // ==================== SAVE ====================
-      async function handleSave() {
-        if (!session?.user) return;
-        setSaveStatus('saving');
-        
-        try {
-          // Update profile
-          const { error: profErr } = await supabaseClient
-            .from('profiles')
-            .upsert({ id: session.user.id, ...profile });
-            
-          if (profErr) throw profErr;
-          
-          // Update links - tanpa order karena kolom mungkin tidak ada
-          for (let i = 0; i < links.length; i++) {
-            const link = links[i];
-            
-            // Hanya update field yang pasti ada
-            const updateData = { 
-              title: link.title, 
-              url: link.url, 
-              type: link.type
-            };
-            
-            const { error: linkErr } = await supabaseClient
-              .from('links')
-              .update(updateData)
-              .eq('id', link.id);
-              
-            if (linkErr) throw linkErr;
+      // ==================== AUTH MODULE ====================
+      const Auth = {
+        async checkSession() {
+          try {
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            if (error) throw error;
+            AppState.session = session;
+            return session;
+          } catch (err) {
+            console.error('Session check error:', err);
+            return null;
           }
-          
-          setSaveStatus('success');
-          setTimeout(() => setSaveStatus(null), 2000);
-        } catch (err) {
-          console.error('Save error:', err);
-          alert('Gagal menyimpan: ' + err.message);
-          setSaveStatus(null);
-        }
-      }
+        },
 
-      // ==================== FETCH PROFILE & LINKS ====================
-      async function fetchProfileAndLinks() {
-        if (!session?.user) return;
-        
-        try {
-          // Fetch profile
-          const { data: prof, error: profErr } = await supabaseClient
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle();
+        renderLogin(container) {
+          container.innerHTML = `
+            <div class="min-h-screen flex items-center justify-center p-5">
+              <div class="w-full max-w-sm">
+                <div class="mb-10 text-center">
+                  <h1 class="text-4xl font-bold tracking-tight">progresix<span class="text-blue-600">.</span></h1>
+                  <p class="text-slate-500 text-sm mt-3">Sign in to manage your content</p>
+                </div>
+                
+                <div class="card p-8">
+                  <form id="login-form" class="space-y-5">
+                    <input type="email" id="email" placeholder="Email address" class="input-modern" required />
+                    <input type="password" id="password" placeholder="Password" class="input-modern" required />
+                    <button type="submit" class="btn-primary touch-target mt-6">Continue →</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          `;
+
+          document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-          if (profErr) throw profErr;
-          
-          if (prof) {
-            profile = prof;
-          } else {
-            profile = { 
-              id: session.user.id, 
-              name: session.user.email?.split('@')[0] || 'Bagus Ardianto', 
-              bio: 'Professional Profile', 
-              avatar_url: '', 
-              bg_url: '', 
-              text_color: '#2563eb' 
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+              const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+              if (error) throw error;
+              
+              AppState.session = data.session;
+              await Promise.all([
+                Profile.fetchProfile(),
+                Products.fetchProducts(),
+                Links.fetchLinks()
+              ]);
+              
+              renderApp();
+            } catch (err) {
+              alert('Login failed: ' + err.message);
+            }
+          });
+        },
+
+        async logout() {
+          try {
+            await supabaseClient.auth.signOut();
+            AppState.session = null;
+            AppState.products = [];
+            AppState.links = [];
+            AppState.profile = {
+              id: null,
+              name: '',
+              bio: '',
+              avatar_url: '',
+              bg_url: '',
+              text_color: '#3b82f6'
             };
+            renderApp();
+          } catch (err) {
+            console.error('Logout error:', err);
           }
-          
-          // Fetch links - urutkan berdasarkan created_at sebagai fallback
-          let { data: lnks, error: linksErr } = await supabaseClient
-            .from('links')
-            .select('*')
-            .eq('user_id', session.user.id)
-            .order('created_at', { ascending: true });
+        }
+      };
+
+      // ==================== PROFILE MODULE ====================
+      const Profile = {
+        async fetchProfile() {
+          if (!AppState.session?.user) return;
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('profiles')
+              .select('*')
+              .eq('id', AppState.session.user.id)
+              .maybeSingle();
+
+            if (error) throw error;
+
+            if (data) {
+              AppState.profile = data;
+            } else {
+              AppState.profile = {
+                id: AppState.session.user.id,
+                name: AppState.session.user.email?.split('@')[0] || 'User',
+                bio: 'Professional Profile',
+                avatar_url: '',
+                bg_url: '',
+                text_color: '#3b82f6'
+              };
+            }
+          } catch (err) {
+            console.error('Fetch profile error:', err);
+          }
+        },
+
+        render(container) {
+          container.innerHTML = `
+            <div class="p-5 pb-24">
+              <div class="max-w-3xl mx-auto space-y-6">
+                <h2 class="text-2xl font-bold tracking-tight mb-6">Profile Settings</h2>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="card p-5">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase mb-3">Avatar</h3>
+                    <div class="flex flex-col items-center gap-3">
+                      <div class="relative w-24 h-24 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
+                        <div id="avatar-preview" class="w-full h-full bg-cover bg-center" 
+                             style="background-image: ${AppState.profile.avatar_url ? `url('${AppState.profile.avatar_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23e0e0e0\\\'/></svg>\')'};"></div>
+                        <div id="avatar-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden">
+                          <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      </div>
+                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
+                        Upload
+                        <input type="file" id="avatar-file" class="hidden" accept="image/*" />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="card p-5">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase mb-3">Background</h3>
+                    <div class="flex flex-col items-center gap-3">
+                      <div class="relative w-24 h-24 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
+                        <div id="bg-preview" class="w-full h-full bg-cover bg-center" 
+                             style="background-image: ${AppState.profile.bg_url ? `url('${AppState.profile.bg_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23d9d9d9\\\'/></svg>\')'};"></div>
+                        <div id="bg-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden">
+                          <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      </div>
+                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
+                        Upload
+                        <input type="file" id="bg-file" class="hidden" accept="image/*" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card p-6 space-y-4">
+                  <h3 class="text-xs font-semibold text-slate-400 uppercase">Profile Info</h3>
+                  
+                  <input type="text" id="profile-name" value="${AppState.profile.name || ''}" 
+                         placeholder="Full name" class="input-modern" />
+                  
+                  <textarea id="profile-bio" placeholder="Bio" 
+                            class="input-modern h-24 resize-none">${AppState.profile.bio || ''}</textarea>
+                  
+                  <div class="flex items-center gap-4 pt-2">
+                    <span class="text-sm font-medium text-slate-600">Accent Color</span>
+                    <input type="color" id="text-color" value="${AppState.profile.text_color || '#3b82f6'}" 
+                           class="w-10 h-10 rounded-full border-0 cursor-pointer" />
+                  </div>
+                </div>
+
+                <div class="fixed bottom-20 left-0 right-0 p-5 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
+                  <button id="save-profile" class="btn-primary max-w-3xl mx-auto block pointer-events-auto shadow-lg">
+                    Save Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          document.getElementById('avatar-file')?.addEventListener('change', (e) => this.handleFileUpload(e, 'avatar'));
+          document.getElementById('bg-file')?.addEventListener('change', (e) => this.handleFileUpload(e, 'bg'));
+          document.getElementById('text-color')?.addEventListener('input', (e) => { 
+            AppState.profile.text_color = e.target.value; 
+          });
+          document.getElementById('profile-name')?.addEventListener('input', (e) => { 
+            AppState.profile.name = e.target.value; 
+          });
+          document.getElementById('profile-bio')?.addEventListener('input', (e) => { 
+            AppState.profile.bio = e.target.value; 
+          });
+          document.getElementById('save-profile')?.addEventListener('click', () => this.save());
+        },
+
+        async handleFileUpload(e, type) {
+          const file = e.target.files[0];
+          if (!file || !AppState.session?.user) return;
+
+          const uploadingEl = type === 'avatar' ? document.getElementById('avatar-uploading') : document.getElementById('bg-uploading');
+          uploadingEl.classList.remove('hidden');
+
+          try {
+            const compressedBlob = await compressImage(file, type === 'avatar' ? 400 : 1280);
+            const fileName = `${AppState.session.user.id}/${type}_${Date.now()}.webp`;
             
-          if (linksErr) {
-            console.warn('Error fetching links:', linksErr);
-            lnks = [];
+            const { error: uploadError } = await supabaseClient.storage
+              .from('avatars')
+              .upload(fileName, compressedBlob);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabaseClient.storage
+              .from('avatars')
+              .getPublicUrl(fileName);
+
+            if (type === 'avatar') {
+              AppState.profile.avatar_url = publicUrl;
+              document.getElementById('avatar-preview').style.backgroundImage = `url('${publicUrl}')`;
+            } else {
+              AppState.profile.bg_url = publicUrl;
+              document.getElementById('bg-preview').style.backgroundImage = `url('${publicUrl}')`;
+            }
+          } catch (err) {
+            alert('Upload failed: ' + err.message);
+          } finally {
+            uploadingEl.classList.add('hidden');
           }
+        },
+
+        async save() {
+          if (!AppState.session?.user) return;
+
+          setSaveStatus('saving');
+
+          try {
+            const { error } = await supabaseClient
+              .from('profiles')
+              .upsert({ id: AppState.session.user.id, ...AppState.profile });
+
+            if (error) throw error;
+
+            setSaveStatus('success');
+            setTimeout(() => setSaveStatus(null), 2000);
+          } catch (err) {
+            console.error('Save profile error:', err);
+            alert('Failed to save: ' + err.message);
+            setSaveStatus(null);
+          }
+        }
+      };
+
+      // ==================== PRODUCTS MODULE ====================
+      const Products = {
+        modalElement: null,
+
+        async fetchProducts() {
+          if (!AppState.session?.user) return;
           
-          if (lnks) {
-            links = lnks.map(link => ({
+          try {
+            const { data, error } = await supabaseClient
+              .from('products')
+              .select('*')
+              .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            AppState.products = data || [];
+          } catch (err) {
+            console.error('Fetch products error:', err);
+            AppState.products = [];
+          }
+        },
+
+        render(container) {
+          container.innerHTML = `
+            <div class="p-5 pb-24">
+              <div class="max-w-6xl mx-auto">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-2xl font-bold tracking-tight">Products</h2>
+                  <button onclick="Products.showModal()" class="bg-indigo-600 text-white px-5 py-3 rounded-xl text-sm font-bold shadow-lg">
+                    + Add Product
+                  </button>
+                </div>
+
+                <div class="card overflow-hidden">
+                  <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full product-table">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th class="text-right">Price</th>
+                          <th class="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="products-list">
+                        ${this.renderProducts()}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="product-modal" class="hidden modal-backdrop">
+              <div class="modal-content">
+                <h3 id="modal-title" class="text-2xl font-bold mb-6">Manage Product</h3>
+                <div class="space-y-5">
+                  <input type="hidden" id="edit-id">
+                  
+                  <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Product Name</label>
+                    <input type="text" id="p-name" class="input-modern" placeholder="e.g. Premium Package">
+                  </div>
+                  
+                  <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Description</label>
+                    <textarea id="p-desc" rows="3" class="input-modern resize-none" placeholder="Short description..."></textarea>
+                  </div>
+                  
+                  <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Price (IDR)</label>
+                    <input type="number" id="p-price" class="input-modern" placeholder="e.g. 500000">
+                  </div>
+                  
+                  <div class="flex gap-3 pt-4">
+                    <button onclick="Products.save()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-bold">
+                      Save Product
+                    </button>
+                    <button onclick="Products.hideModal()" class="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          this.modalElement = document.getElementById('product-modal');
+        },
+
+        renderProducts() {
+          if (AppState.products.length === 0) {
+            return `
+              <tr>
+                <td colspan="3" class="text-center py-12 text-slate-500">
+                  ${Icons.alert()}
+                  <p class="mt-2">No products yet</p>
+                </td>
+              </tr>
+            `;
+          }
+
+          return AppState.products.map(p => `
+            <tr>
+              <td>
+                <div class="font-semibold">${p.name}</div>
+                <div class="text-xs text-slate-400 mt-1">${p.description || '-'}</div>
+              </td>
+              <td class="text-right font-bold text-indigo-600">
+                ${formatCurrency(p.price)}
+              </td>
+              <td class="text-center">
+                <button onclick="Products.edit('${p.id}')" class="text-indigo-600 text-xs font-bold uppercase hover:underline mr-3">
+                  ${Icons.edit()}
+                </button>
+                <button onclick="Products.delete('${p.id}')" class="text-red-400 text-xs font-bold uppercase hover:underline">
+                  ${Icons.trash()}
+                </button>
+              </td>
+            </tr>
+          `).join('');
+        },
+
+        showModal() {
+          document.getElementById('modal-title').innerText = 'New Product';
+          document.getElementById('edit-id').value = '';
+          document.getElementById('p-name').value = '';
+          document.getElementById('p-desc').value = '';
+          document.getElementById('p-price').value = '';
+          this.modalElement?.classList.remove('hidden');
+        },
+
+        hideModal() {
+          this.modalElement?.classList.add('hidden');
+        },
+
+        edit(id) {
+          const product = AppState.products.find(p => p.id === id);
+          if (!product) return;
+
+          document.getElementById('modal-title').innerText = 'Edit Product';
+          document.getElementById('edit-id').value = product.id;
+          document.getElementById('p-name').value = product.name;
+          document.getElementById('p-desc').value = product.description || '';
+          document.getElementById('p-price').value = product.price;
+          this.modalElement?.classList.remove('hidden');
+        },
+
+        async save() {
+          const id = document.getElementById('edit-id').value;
+          const payload = {
+            name: document.getElementById('p-name').value,
+            description: document.getElementById('p-desc').value,
+            price: parseInt(document.getElementById('p-price').value) || 0
+          };
+
+          try {
+            let result;
+            if (id) {
+              result = await supabaseClient.from('products').update(payload).eq('id', id);
+            } else {
+              result = await supabaseClient.from('products').insert([payload]);
+            }
+
+            if (result.error) throw result.error;
+
+            await this.fetchProducts();
+            this.hideModal();
+            renderApp();
+          } catch (err) {
+            alert('Error saving product: ' + err.message);
+          }
+        },
+
+        async delete(id) {
+          if (!confirm('Delete this product?')) return;
+
+          try {
+            const { error } = await supabaseClient.from('products').delete().eq('id', id);
+            if (error) throw error;
+
+            await this.fetchProducts();
+            renderApp();
+          } catch (err) {
+            alert('Error deleting product: ' + err.message);
+          }
+        }
+      };
+
+      // ==================== LINKS MODULE ====================
+      const Links = {
+        async fetchLinks() {
+          if (!AppState.session?.user) return;
+
+          try {
+            let { data, error } = await supabaseClient
+              .from('links')
+              .select('*')
+              .eq('user_id', AppState.session.user.id)
+              .order('order', { ascending: true, nullsFirst: false });
+
+            if (error && error.message.includes('column')) {
+              const { data: fallback, error: fallbackErr } = await supabaseClient
+                .from('links')
+                .select('*')
+                .eq('user_id', AppState.session.user.id)
+                .order('created_at', { ascending: true });
+
+              if (!fallbackErr) data = fallback;
+            } else if (error) {
+              throw error;
+            }
+
+            AppState.links = (data || []).map(link => ({
               ...link,
               type: isSocialUrl(link.url) ? 'social' : (link.type || 'square')
             }));
-          } else {
-            links = [];
+          } catch (err) {
+            console.error('Fetch links error:', err);
+            AppState.links = [];
           }
-          
-        } catch (err) {
-          console.error('Fetch error:', err);
-          links = [];
+        },
+
+        render(container) {
+          const socialLinks = AppState.links.filter(l => l.type === 'social');
+          const regularLinks = AppState.links.filter(l => l.type === 'square' && !isSocialUrl(l.url));
+
+          container.innerHTML = `
+            <div class="p-5 pb-24">
+              <div class="max-w-3xl mx-auto space-y-6">
+                <h2 class="text-2xl font-bold tracking-tight">Links</h2>
+
+                <div class="flex gap-3">
+                  <button id="add-social-link" class="flex-1 bg-slate-100 text-slate-700 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    ${Icons.plus()} Add Social
+                  </button>
+                  <button id="add-regular-link" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    ${Icons.plus()} Add Link
+                  </button>
+                </div>
+
+                <div class="flex gap-2 border-b border-slate-200 pb-4">
+                  <button class="tab-btn ${AppState.activeTab === 'all' ? 'active' : ''}" data-tab="all">
+                    All (${AppState.links.length})
+                  </button>
+                  <button class="tab-btn ${AppState.activeTab === 'social' ? 'active' : ''}" data-tab="social">
+                    Social (${socialLinks.length})
+                  </button>
+                  <button class="tab-btn ${AppState.activeTab === 'regular' ? 'active' : ''}" data-tab="regular">
+                    Links (${regularLinks.length})
+                  </button>
+                </div>
+
+                <div id="all-links" class="links-container ${AppState.activeTab !== 'all' ? 'hidden' : ''}"></div>
+                <div id="social-links" class="links-container ${AppState.activeTab !== 'social' ? 'hidden' : ''}"></div>
+                <div id="regular-links" class="links-container ${AppState.activeTab !== 'regular' ? 'hidden' : ''}"></div>
+
+                <div class="fixed bottom-20 left-0 right-0 p-5 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
+                  <button id="save-links" class="btn-primary max-w-3xl mx-auto block pointer-events-auto shadow-lg">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          this.renderLinksByType('all', AppState.links);
+          this.renderLinksByType('social', socialLinks);
+          this.renderLinksByType('regular', regularLinks);
+
+          document.getElementById('add-social-link')?.addEventListener('click', () => this.addLink('social'));
+          document.getElementById('add-regular-link')?.addEventListener('click', () => this.addLink('square'));
+          document.getElementById('save-links')?.addEventListener('click', () => this.save());
+
+          document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              
+              AppState.activeTab = btn.dataset.tab;
+              
+              document.querySelectorAll('.links-container').forEach(c => c.classList.add('hidden'));
+              document.getElementById(`${AppState.activeTab}-links`).classList.remove('hidden');
+              
+              setTimeout(() => this.initSortableForContainer(AppState.activeTab), 50);
+            });
+          });
+
+          setTimeout(() => this.initSortableForContainer(AppState.activeTab), 100);
+        },
+
+        renderLinksByType(type, linksToRender) {
+          const container = document.getElementById(`${type}-links`);
+          if (!container) return;
+
+          if (linksToRender.length === 0) {
+            container.innerHTML = `
+              <div class="card p-8 text-center text-slate-500">
+                ${Icons.alert()}
+                <p class="mt-2">No ${type} links yet.</p>
+              </div>
+            `;
+            return;
+          }
+
+          container.innerHTML = linksToRender.map(link => `
+            <div class="link-item ${link.type === 'social' ? 'border-l-4' : ''}" 
+                 data-id="${link.id}" 
+                 data-type="${link.type}"
+                 style="${link.type === 'social' ? 'border-left-color: ' + AppState.profile.text_color : ''}">
+              
+              <div class="drag-handle">
+                ${Icons.drag()}
+              </div>
+              
+              <button class="delete-link" aria-label="Hapus link"></button>
+              
+              <div class="link-content">
+                <div class="flex items-center gap-3 mb-3">
+                  ${link.type === 'social' ? `
+                    <span class="w-9 h-9 rounded-full bg-white shadow-sm flex items-center justify-center" style="color: ${AppState.profile.text_color}">
+                      ${getSocialIcon(link.url)}
+                    </span>
+                  ` : ''}
+                  <select class="link-type bg-slate-100 border-0 rounded-full px-4 py-2 text-sm font-semibold outline-none">
+                    <option value="square" ${link.type === 'square' ? 'selected' : ''}>Card</option>
+                    <option value="social" ${link.type === 'social' ? 'selected' : ''}>Social</option>
+                  </select>
+                </div>
+                
+                <input class="link-title bg-transparent w-full text-lg font-semibold outline-none placeholder:text-slate-300 mb-2" 
+                       value="${(link.title || '').replace(/"/g, '&quot;')}" 
+                       placeholder="Link title" />
+                       
+                <input class="link-url bg-transparent w-full text-sm text-slate-500 outline-none" 
+                       value="${(link.url || '').replace(/"/g, '&quot;')}" 
+                       placeholder="https://..." />
+              </div>
+            </div>
+          `).join('');
+
+          container.querySelectorAll('.delete-link').forEach(btn => {
+            btn.innerHTML = Icons.trash();
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const id = e.target.closest('[data-id]')?.dataset.id;
+              if (id) this.deleteLink(id);
+            });
+          });
+
+          container.querySelectorAll('.link-type').forEach(select => {
+            select.addEventListener('change', (e) => {
+              const id = e.target.closest('[data-id]').dataset.id;
+              const link = AppState.links.find(l => l.id === id);
+              if (link) {
+                link.type = e.target.value;
+              }
+            });
+          });
+
+          container.querySelectorAll('.link-title').forEach(input => {
+            input.addEventListener('input', (e) => {
+              const id = e.target.closest('[data-id]').dataset.id;
+              const link = AppState.links.find(l => l.id === id);
+              if (link) link.title = e.target.value;
+            });
+          });
+
+          container.querySelectorAll('.link-url').forEach(input => {
+            input.addEventListener('input', (e) => {
+              const id = e.target.closest('[data-id]').dataset.id;
+              const link = AppState.links.find(l => l.id === id);
+              if (link) {
+                link.url = e.target.value;
+                if (isSocialUrl(link.url)) {
+                  link.type = 'social';
+                }
+              }
+            });
+          });
+        },
+
+        initSortableForContainer(type) {
+          const container = document.getElementById(`${type}-links`);
+          if (!container || container.children.length === 0 || container.children[0].classList.contains('card')) return;
+
+          if (AppState.sortableInstances[type]) {
+            AppState.sortableInstances[type].destroy();
+          }
+
+          AppState.sortableInstances[type] = new Sortable(container, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            dragClass: 'sortable-drag',
+            handle: '.drag-handle',
+            direction: 'vertical',
+            onEnd: (evt) => {
+              const items = Array.from(container.children);
+              const updatedLinks = [];
+
+              items.forEach(item => {
+                const id = item.dataset.id;
+                const link = AppState.links.find(l => l.id === id);
+                if (link) updatedLinks.push(link);
+              });
+
+              const otherLinks = AppState.links.filter(l => !updatedLinks.some(ul => ul.id === l.id));
+
+              if (type === 'all') {
+                AppState.links = updatedLinks;
+              } else if (type === 'social') {
+                AppState.links = [...updatedLinks, ...otherLinks];
+              } else if (type === 'regular') {
+                AppState.links = [...otherLinks, ...updatedLinks];
+              }
+
+              setSaveStatus('Reorder');
+              setTimeout(() => setSaveStatus(null), 1000);
+            }
+          });
+        },
+
+        async addLink(type = 'square') {
+          if (!AppState.session?.user) return;
+
+          try {
+            const { data, error } = await supabaseClient
+              .from('links')
+              .insert({
+                user_id: AppState.session.user.id,
+                title: type === 'social' ? 'New Social' : 'New Link',
+                url: type === 'social' ? 'https://instagram.com/' : 'https://',
+                type: type,
+                order: AppState.links.length
+              })
+              .select()
+              .single();
+
+            if (!error && data) {
+              AppState.links.push({
+                ...data,
+                type: isSocialUrl(data.url) ? 'social' : data.type
+              });
+              renderApp();
+            } else {
+              throw error || new Error('Failed to add link');
+            }
+          } catch (err) {
+            console.error('Add link error:', err);
+            alert('Failed to add link: ' + err.message);
+          }
+        },
+
+        async deleteLink(id) {
+          if (!confirm('Delete this link?')) return;
+
+          try {
+            const { error } = await supabaseClient.from('links').delete().eq('id', id);
+            if (!error) {
+              AppState.links = AppState.links.filter(l => l.id !== id);
+              renderApp();
+            } else {
+              throw error;
+            }
+          } catch (err) {
+            console.error('Delete error:', err);
+            alert('Failed to delete: ' + err.message);
+          }
+        },
+
+        async save() {
+          if (!AppState.session?.user) return;
+
+          setSaveStatus('saving');
+
+          try {
+            for (let i = 0; i < AppState.links.length; i++) {
+              const link = AppState.links[i];
+              const { error } = await supabaseClient
+                .from('links')
+                .update({
+                  title: link.title,
+                  url: link.url,
+                  type: link.type,
+                  order: i
+                })
+                .eq('id', link.id);
+
+              if (error) throw error;
+            }
+
+            setSaveStatus('success');
+            setTimeout(() => setSaveStatus(null), 2000);
+          } catch (err) {
+            console.error('Save error:', err);
+            alert('Failed to save: ' + err.message);
+            setSaveStatus(null);
+          }
+        }
+      };
+
+      // ==================== MAIN APP RENDERER ====================
+      function renderApp() {
+        const app = document.getElementById('app');
+        
+        if (!AppState.session) {
+          Auth.renderLogin(app);
+          return;
+        }
+
+        app.innerHTML = `
+          <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 px-5 py-3">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+              <div class="flex items-center gap-3">
+                <h1 class="font-bold text-xl tracking-tight">progresix<span class="text-blue-600">.</span></h1>
+                <span class="status-badge hidden sm:inline-block">
+                  ${AppState.session.user?.email?.split('@')[0] || 'admin'}
+                </span>
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <a href="${CONFIG.PUBLIC_URL}" target="_blank" class="btn-secondary py-2 px-4 text-sm hidden sm:flex items-center gap-2">
+                  ${Icons.share()} Preview
+                </a>
+                <button id="logout-btn" class="btn-secondary py-2 px-4 text-sm text-red-600 border-red-200">
+                  Logout
+                </button>
+              </div>
+            </div>
+          </header>
+
+          <main id="main-content" class="flex-1 overflow-y-auto scrollbar-thin" style="height: calc(100vh - 120px);">
+            <!-- Content will be injected here -->
+          </main>
+
+          <nav class="bottom-nav">
+            <div class="nav-item ${AppState.currentView === 'products' ? 'active' : ''}" data-view="products">
+              ${Icons.products()}
+              <span>Products</span>
+            </div>
+            <div class="nav-item ${AppState.currentView === 'links' ? 'active' : ''}" data-view="links">
+              ${Icons.links()}
+              <span>Links</span>
+            </div>
+            <div class="nav-item ${AppState.currentView === 'profile' ? 'active' : ''}" data-view="profile">
+              ${Icons.profile()}
+              <span>Profile</span>
+            </div>
+          </nav>
+        `;
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('click', () => {
+            AppState.currentView = item.dataset.view;
+            renderApp();
+          });
+        });
+
+        document.getElementById('logout-btn')?.addEventListener('click', () => Auth.logout());
+
+        const content = document.getElementById('main-content');
+        switch (AppState.currentView) {
+          case 'products':
+            Products.render(content);
+            break;
+          case 'links':
+            Links.render(content);
+            break;
+          case 'profile':
+            Profile.render(content);
+            break;
         }
       }
 
-      // ==================== INIT ====================
+      // ==================== INITIALIZATION ====================
       (async () => {
+        const app = document.getElementById('app');
+        
         try {
-          const { data: { session: currentSession }, error } = await supabaseClient.auth.getSession();
-          if (error) throw error;
-          
-          session = currentSession;
+          const session = await Auth.checkSession();
           
           if (session) {
-            showLoading();
-            await fetchProfileAndLinks();
-            renderAdmin();
+            app.innerHTML = `
+              <div class="flex items-center justify-center min-h-screen">
+                <div class="text-center">
+                  <div class="spinner mx-auto mb-4"></div>
+                  <p class="text-slate-600">Loading your dashboard...</p>
+                </div>
+              </div>
+            `;
+            
+            await Promise.all([
+              Profile.fetchProfile(),
+              Products.fetchProducts(),
+              Links.fetchLinks()
+            ]);
+            
+            renderApp();
           } else {
-            renderLogin();
+            Auth.renderLogin(app);
           }
         } catch (err) {
           console.error('Init error:', err);
-          renderLogin();
-        } finally {
-          hideLoading();
+          app.innerHTML = `
+            <div class="flex items-center justify-center min-h-screen p-5">
+              <div class="text-center">
+                <p class="text-red-600 mb-4">Failed to initialize</p>
+                <button onclick="location.reload()" class="btn-primary max-w-xs mx-auto">
+                  Retry
+                </button>
+              </div>
+            </div>
+          `;
         }
       })();
+
+      // Expose Products to global for onclick handlers
+      window.Products = Products;
     })();
   </script>
 </body>
