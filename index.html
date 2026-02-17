@@ -49,7 +49,7 @@
     /* Card styles */
     .card {
       background: white;
-      border-radius: 24px;
+      border-radius: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
       border: 1px solid #f1f5f9;
     }
@@ -57,9 +57,9 @@
     /* Input styles */
     .input-modern {
       background: #f8fafc;
-      border-radius: 18px;
-      padding: 16px 20px;
-      font-size: 16px;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 15px;
       border: 1.5px solid transparent;
       transition: all 0.2s;
       width: 100%;
@@ -77,8 +77,8 @@
       color: white;
       font-weight: 600;
       border-radius: 40px;
-      padding: 16px 28px;
-      font-size: 16px;
+      padding: 14px 24px;
+      font-size: 15px;
       transition: all 0.2s;
       border: none;
       cursor: pointer;
@@ -94,8 +94,8 @@
       color: #0f172a;
       border: 1.5px solid #e2e8f0;
       border-radius: 40px;
-      padding: 12px 24px;
-      font-size: 15px;
+      padding: 10px 20px;
+      font-size: 14px;
       font-weight: 600;
       transition: all 0.15s;
       cursor: pointer;
@@ -112,7 +112,7 @@
       right: 0;
       background: white;
       border-top: 1px solid #f1f5f9;
-      padding: 8px 16px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-around;
       z-index: 50;
@@ -122,11 +122,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding: 8px 16px;
-      border-radius: 40px;
+      gap: 2px;
+      padding: 6px 12px;
+      border-radius: 30px;
       color: #64748b;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       transition: all 0.2s;
       cursor: pointer;
@@ -137,92 +137,18 @@
       color: #0f172a;
     }
     
-    /* Link item styling */
-    .link-item { 
-      background: white; 
-      border-radius: 20px; 
-      border: 1px solid #f1f5f9; 
-      padding: 16px;
+    /* Product card for mobile */
+    .product-card {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid #f1f5f9;
+      padding: 14px;
+      margin-bottom: 10px;
       transition: all 0.2s;
-      margin-bottom: 8px;
-      position: relative;
     }
     
-    .drag-handle {
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94a3b8;
-      cursor: grab;
-      border-radius: 8px;
-    }
-    
-    .drag-handle:active {
-      cursor: grabbing;
-      background: #f1f5f9;
-    }
-    
-    .link-content {
-      margin-left: 40px;
-      margin-right: 40px;
-    }
-    
-    .delete-link {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94a3b8;
-      border-radius: 8px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .delete-link:hover,
-    .delete-link:active {
-      color: #ef4444;
-      background: #fee2e2;
-    }
-    
-    /* Sortable styling */
-    .sortable-ghost {
-      opacity: 0.3;
-      background: #e2e8f0;
-      border: 2px dashed #3b82f6;
-    }
-    
-    .sortable-drag {
-      opacity: 0.9;
-      transform: scale(1.02);
-      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
-    }
-    
-    /* Table styling */
-    .product-table th {
+    .product-card:active {
       background: #f8fafc;
-      font-size: 12px;
-      font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 16px 20px;
-    }
-    
-    .product-table td {
-      padding: 20px;
-      border-bottom: 1px solid #f1f5f9;
     }
     
     /* Modal */
@@ -233,35 +159,65 @@
       backdrop-filter: blur(4px);
       z-index: 100;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      padding: 16px;
+      padding: 12px;
     }
     
     .modal-content {
       background: white;
       width: 100%;
-      max-width: 500px;
-      border-radius: 32px;
-      padding: 32px;
+      max-width: 400px;
+      border-radius: 28px 28px 28px 28px;
+      padding: 24px 20px;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
     
     /* Status badge */
     .status-badge {
       background: #e6f7e6;
       color: #0a7143;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 40px;
       white-space: nowrap;
     }
     
+    .stock-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 500;
+    }
+    
+    .unlimited-badge {
+      background: #dcfce7;
+      color: #166534;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    
     /* Loading spinner */
     .spinner {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border: 3px solid #e2e8f0;
       border-top-color: #3b82f6;
       border-radius: 50%;
@@ -272,43 +228,83 @@
       to { transform: rotate(360deg); }
     }
     
-    /* Hide scrollbar for mobile */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    /* Toggle switch for unlimited stock */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
     }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
     }
-
-    /* Tab styling */
-    .tab-btn {
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.2s;
+    .toggle-slider {
+      position: absolute;
       cursor: pointer;
-      border: none;
-      background: transparent;
-      color: #64748b;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: #22c55e;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
     }
     
-    .tab-btn.active {
-      background: #0f172a;
-      color: white;
+    /* Product action buttons */
+    .action-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      color: #64748b;
+      transition: all 0.2s;
     }
-
-    /* Image preview */
-    .image-preview {
-      width: 96px;
-      height: 96px;
-      border-radius: 16px;
-      background-size: cover;
-      background-position: center;
-      background-color: #f1f5f9;
+    
+    .action-btn.edit-btn:active {
+      background: #e0f2fe;
+      color: #0284c7;
     }
-
+    
+    .action-btn.delete-btn:active {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    
+    /* Error message */
+    .error-message {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
     /* Hidden utility */
     .hidden {
       display: none !important;
@@ -346,7 +342,8 @@
         currentView: 'products',
         saveStatus: null,
         activeTab: 'all',
-        sortableInstances: {}
+        sortableInstances: {},
+        dbError: null
       };
 
       // ==================== ICONS ====================
@@ -362,37 +359,17 @@
         linkedin: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
         whatsapp: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-14h.8c4.3 0 7.7 3.5 7.7 7.7v2.5z"/></svg>`,
         global: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-        trash: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`,
-        drag: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>`,
-        plus: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-        alert: () => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>`,
-        share: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
-        edit: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>`
+        trash: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`,
+        drag: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>`,
+        plus: () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+        alert: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>`,
+        share: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+        edit: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>`,
+        check: () => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`,
+        warning: () => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`
       };
 
       // ==================== UTILITIES ====================
-      function getSocialIcon(url) {
-        const l = url.toLowerCase();
-        if (l.includes('instagram.com')) return Icons.instagram();
-        if (l.includes('github.com')) return Icons.github();
-        if (l.includes('twitter.com') || l.includes('x.com')) return Icons.x();
-        if (l.includes('youtube.com') || l.includes('youtu.be')) return Icons.youtube();
-        if (l.includes('tiktok.com')) return Icons.tiktok();
-        if (l.includes('linkedin.com')) return Icons.linkedin();
-        if (l.includes('whatsapp.com')) return Icons.whatsapp();
-        return Icons.global();
-      }
-
-      function isSocialUrl(url) {
-        const socialDomains = [
-          'instagram.com', 'github.com', 'twitter.com', 'x.com', 
-          'youtube.com', 'youtu.be', 'tiktok.com', 'linkedin.com',
-          'facebook.com', 'whatsapp.com', 'telegram.org', 'discord.com'
-        ];
-        const l = url.toLowerCase();
-        return socialDomains.some(domain => l.includes(domain));
-      }
-
       function formatCurrency(price) {
         return new Intl.NumberFormat('id-ID', {
           style: 'currency',
@@ -438,6 +415,14 @@
         }
       }
 
+      function checkColumnError(error) {
+        if (error && error.message && error.message.includes('column')) {
+          AppState.dbError = 'Database needs update: Please add "stok" and "unlimited" columns to products table.';
+          return true;
+        }
+        return false;
+      }
+
       // ==================== AUTH MODULE ====================
       const Auth = {
         async checkSession() {
@@ -456,16 +441,16 @@
           container.innerHTML = `
             <div class="min-h-screen flex items-center justify-center p-5">
               <div class="w-full max-w-sm">
-                <div class="mb-10 text-center">
-                  <h1 class="text-4xl font-bold tracking-tight">progresix<span class="text-blue-600">.</span></h1>
-                  <p class="text-slate-500 text-sm mt-3">Sign in to manage your content</p>
+                <div class="mb-8 text-center">
+                  <h1 class="text-3xl font-bold tracking-tight">progresix<span class="text-blue-600">.</span></h1>
+                  <p class="text-slate-500 text-xs mt-2">Sign in to manage your content</p>
                 </div>
                 
-                <div class="card p-8">
-                  <form id="login-form" class="space-y-5">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                  <form id="login-form" class="space-y-4">
                     <input type="email" id="email" placeholder="Email address" class="input-modern" required />
                     <input type="password" id="password" placeholder="Password" class="input-modern" required />
-                    <button type="submit" class="btn-primary touch-target mt-6">Continue →</button>
+                    <button type="submit" class="btn-primary touch-target mt-4">Continue →</button>
                   </form>
                 </div>
               </div>
@@ -550,39 +535,39 @@
 
         render(container) {
           container.innerHTML = `
-            <div class="p-5 pb-24">
-              <div class="max-w-3xl mx-auto space-y-6">
-                <h2 class="text-2xl font-bold tracking-tight mb-6">Profile Settings</h2>
+            <div class="p-4 pb-24">
+              <div class="max-w-lg mx-auto space-y-4">
+                <h2 class="text-xl font-bold tracking-tight mb-4">Profile Settings</h2>
 
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="card p-5">
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white rounded-2xl p-4 border border-slate-100">
                     <h3 class="text-xs font-semibold text-slate-400 uppercase mb-3">Avatar</h3>
                     <div class="flex flex-col items-center gap-3">
-                      <div class="relative w-24 h-24 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
+                      <div class="relative w-20 h-20 rounded-xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
                         <div id="avatar-preview" class="w-full h-full bg-cover bg-center" 
                              style="background-image: ${AppState.profile.avatar_url ? `url('${AppState.profile.avatar_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23e0e0e0\\\'/></svg>\')'};"></div>
                         <div id="avatar-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden">
                           <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                         </div>
                       </div>
-                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
+                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-4 py-2 text-xs font-medium w-full text-center">
                         Upload
                         <input type="file" id="avatar-file" class="hidden" accept="image/*" />
                       </label>
                     </div>
                   </div>
 
-                  <div class="card p-5">
+                  <div class="bg-white rounded-2xl p-4 border border-slate-100">
                     <h3 class="text-xs font-semibold text-slate-400 uppercase mb-3">Background</h3>
                     <div class="flex flex-col items-center gap-3">
-                      <div class="relative w-24 h-24 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
+                      <div class="relative w-20 h-20 rounded-xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
                         <div id="bg-preview" class="w-full h-full bg-cover bg-center" 
                              style="background-image: ${AppState.profile.bg_url ? `url('${AppState.profile.bg_url}')` : 'url(\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23d9d9d9\\\'/></svg>\')'};"></div>
                         <div id="bg-uploading" class="absolute inset-0 bg-white/70 backdrop-blur-sm items-center justify-center hidden">
                           <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                         </div>
                       </div>
-                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-5 py-2.5 text-sm font-medium w-full text-center">
+                      <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-full px-4 py-2 text-xs font-medium w-full text-center">
                         Upload
                         <input type="file" id="bg-file" class="hidden" accept="image/*" />
                       </label>
@@ -590,24 +575,24 @@
                   </div>
                 </div>
 
-                <div class="card p-6 space-y-4">
+                <div class="bg-white rounded-2xl p-5 border border-slate-100 space-y-3">
                   <h3 class="text-xs font-semibold text-slate-400 uppercase">Profile Info</h3>
                   
                   <input type="text" id="profile-name" value="${AppState.profile.name || ''}" 
                          placeholder="Full name" class="input-modern" />
                   
                   <textarea id="profile-bio" placeholder="Bio" 
-                            class="input-modern h-24 resize-none">${AppState.profile.bio || ''}</textarea>
+                            class="input-modern h-20 resize-none">${AppState.profile.bio || ''}</textarea>
                   
-                  <div class="flex items-center gap-4 pt-2">
+                  <div class="flex items-center justify-between pt-1">
                     <span class="text-sm font-medium text-slate-600">Accent Color</span>
                     <input type="color" id="text-color" value="${AppState.profile.text_color || '#3b82f6'}" 
-                           class="w-10 h-10 rounded-full border-0 cursor-pointer" />
+                           class="w-9 h-9 rounded-full border-0 cursor-pointer" />
                   </div>
                 </div>
 
-                <div class="fixed bottom-20 left-0 right-0 p-5 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
-                  <button id="save-profile" class="btn-primary max-w-3xl mx-auto block pointer-events-auto shadow-lg">
+                <div class="fixed bottom-20 left-0 right-0 p-4 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
+                  <button id="save-profile" class="btn-primary max-w-lg mx-auto block pointer-events-auto shadow-lg">
                     Save Profile
                   </button>
                 </div>
@@ -699,8 +684,19 @@
               .select('*')
               .order('created_at', { ascending: false });
             
-            if (error) throw error;
-            AppState.products = data || [];
+            if (error) {
+              checkColumnError(error);
+              throw error;
+            }
+            
+            // Normalize data: ensure stok and unlimited fields exist
+            AppState.products = (data || []).map(p => ({
+              ...p,
+              stok: p.stok !== undefined ? p.stok : 0,
+              unlimited: p.unlimited !== undefined ? p.unlimited : false
+            }));
+            
+            AppState.dbError = null;
           } catch (err) {
             console.error('Fetch products error:', err);
             AppState.products = [];
@@ -709,60 +705,71 @@
 
         render(container) {
           container.innerHTML = `
-            <div class="p-5 pb-24">
-              <div class="max-w-6xl mx-auto">
-                <div class="flex justify-between items-center mb-6">
-                  <h2 class="text-2xl font-bold tracking-tight">Products</h2>
-                  <button onclick="Products.showModal()" class="bg-indigo-600 text-white px-5 py-3 rounded-xl text-sm font-bold shadow-lg">
-                    + Add Product
+            <div class="p-4 pb-24">
+              <div class="max-w-lg mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-bold tracking-tight">Products</h2>
+                  <button onclick="Products.showModal()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg flex items-center gap-1">
+                    ${Icons.plus()} Add
                   </button>
                 </div>
 
-                <div class="card overflow-hidden">
-                  <div class="overflow-x-auto no-scrollbar">
-                    <table class="w-full product-table">
-                      <thead>
-                        <tr>
-                          <th>Product</th>
-                          <th class="text-right">Price</th>
-                          <th class="text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody id="products-list">
-                        ${this.renderProducts()}
-                      </tbody>
-                    </table>
+                ${AppState.dbError ? `
+                  <div class="error-message">
+                    ${Icons.warning()}
+                    <span>${AppState.dbError}</span>
                   </div>
+                ` : ''}
+
+                <div id="products-list" class="space-y-2">
+                  ${this.renderProducts()}
                 </div>
               </div>
             </div>
 
             <div id="product-modal" class="hidden modal-backdrop">
               <div class="modal-content">
-                <h3 id="modal-title" class="text-2xl font-bold mb-6">Manage Product</h3>
-                <div class="space-y-5">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 id="modal-title" class="text-lg font-bold">New Product</h3>
+                  <button onclick="Products.hideModal()" class="text-slate-400 text-xl">&times;</button>
+                </div>
+                
+                <div class="space-y-4">
                   <input type="hidden" id="edit-id">
                   
                   <div>
-                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Product Name</label>
+                    <label class="text-xs font-medium text-slate-500 mb-1 block">Product Name</label>
                     <input type="text" id="p-name" class="input-modern" placeholder="e.g. Premium Package">
                   </div>
                   
                   <div>
-                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Description</label>
-                    <textarea id="p-desc" rows="3" class="input-modern resize-none" placeholder="Short description..."></textarea>
+                    <label class="text-xs font-medium text-slate-500 mb-1 block">Description</label>
+                    <textarea id="p-desc" rows="2" class="input-modern resize-none" placeholder="Short description..."></textarea>
                   </div>
                   
                   <div>
-                    <label class="text-xs font-semibold text-slate-400 uppercase mb-2 block">Price (IDR)</label>
+                    <label class="text-xs font-medium text-slate-500 mb-1 block">Price (IDR)</label>
                     <input type="number" id="p-price" class="input-modern" placeholder="e.g. 500000">
                   </div>
                   
-                  <div class="flex gap-3 pt-4">
-                    <button onclick="Products.save()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-bold">
+                  <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <span class="text-sm font-medium text-slate-700">Unlimited Stock</span>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="p-unlimited">
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                  
+                  <div id="stock-field">
+                    <label class="text-xs font-medium text-slate-500 mb-1 block">Stock Quantity</label>
+                    <input type="number" id="p-stok" class="input-modern" placeholder="e.g. 100" min="0">
+                  </div>
+                  
+                  <div class="flex gap-2 pt-2">
+                    <button onclick="Products.save()" class="flex-1 bg-indigo-600 text-white py-3.5 rounded-xl font-semibold text-sm">
                       Save Product
                     </button>
-                    <button onclick="Products.hideModal()" class="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold">
+                    <button onclick="Products.hideModal()" class="flex-1 bg-slate-100 text-slate-600 py-3.5 rounded-xl font-semibold text-sm">
                       Cancel
                     </button>
                   </div>
@@ -772,38 +779,57 @@
           `;
 
           this.modalElement = document.getElementById('product-modal');
+          
+          // Toggle stock field based on unlimited checkbox
+          document.getElementById('p-unlimited')?.addEventListener('change', function() {
+            const stockField = document.getElementById('stock-field');
+            const stockInput = document.getElementById('p-stok');
+            if (this.checked) {
+              stockField.style.opacity = '0.5';
+              stockInput.disabled = true;
+            } else {
+              stockField.style.opacity = '1';
+              stockInput.disabled = false;
+            }
+          });
         },
 
         renderProducts() {
           if (AppState.products.length === 0) {
             return `
-              <tr>
-                <td colspan="3" class="text-center py-12 text-slate-500">
-                  ${Icons.alert()}
-                  <p class="mt-2">No products yet</p>
-                </td>
-              </tr>
+              <div class="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-100">
+                ${Icons.alert()}
+                <p class="mt-2 text-sm">No products yet</p>
+                <button onclick="Products.showModal()" class="mt-3 text-indigo-600 text-sm font-semibold">+ Add your first product</button>
+              </div>
             `;
           }
 
           return AppState.products.map(p => `
-            <tr>
-              <td>
-                <div class="font-semibold">${p.name}</div>
-                <div class="text-xs text-slate-400 mt-1">${p.description || '-'}</div>
-              </td>
-              <td class="text-right font-bold text-indigo-600">
-                ${formatCurrency(p.price)}
-              </td>
-              <td class="text-center">
-                <button onclick="Products.edit('${p.id}')" class="text-indigo-600 text-xs font-bold uppercase hover:underline mr-3">
-                  ${Icons.edit()}
-                </button>
-                <button onclick="Products.delete('${p.id}')" class="text-red-400 text-xs font-bold uppercase hover:underline">
-                  ${Icons.trash()}
-                </button>
-              </td>
-            </tr>
+            <div class="product-card">
+              <div class="flex justify-between items-start">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-semibold text-base">${p.name}</h3>
+                    ${p.unlimited ? 
+                      '<span class="unlimited-badge">Unlimited</span>' : 
+                      `<span class="stock-badge">Stok: ${p.stok || 0}</span>`
+                    }
+                  </div>
+                  <p class="text-xs text-slate-500 mb-2 line-clamp-2">${p.description || 'No description'}</p>
+                  <div class="font-bold text-indigo-600 text-sm">${formatCurrency(p.price)}</div>
+                </div>
+                
+                <div class="flex gap-1 ml-2">
+                  <button onclick="Products.edit('${p.id}')" class="action-btn edit-btn">
+                    ${Icons.edit()}
+                  </button>
+                  <button onclick="Products.delete('${p.id}')" class="action-btn delete-btn">
+                    ${Icons.trash()}
+                  </button>
+                </div>
+              </div>
+            </div>
           `).join('');
         },
 
@@ -813,6 +839,10 @@
           document.getElementById('p-name').value = '';
           document.getElementById('p-desc').value = '';
           document.getElementById('p-price').value = '';
+          document.getElementById('p-unlimited').checked = false;
+          document.getElementById('p-stok').value = '';
+          document.getElementById('p-stok').disabled = false;
+          document.getElementById('stock-field').style.opacity = '1';
           this.modalElement?.classList.remove('hidden');
         },
 
@@ -829,16 +859,40 @@
           document.getElementById('p-name').value = product.name;
           document.getElementById('p-desc').value = product.description || '';
           document.getElementById('p-price').value = product.price;
+          document.getElementById('p-unlimited').checked = product.unlimited || false;
+          document.getElementById('p-stok').value = product.stok || '';
+          
+          if (product.unlimited) {
+            document.getElementById('p-stok').disabled = true;
+            document.getElementById('stock-field').style.opacity = '0.5';
+          } else {
+            document.getElementById('p-stok').disabled = false;
+            document.getElementById('stock-field').style.opacity = '1';
+          }
+          
           this.modalElement?.classList.remove('hidden');
         },
 
         async save() {
           const id = document.getElementById('edit-id').value;
+          const unlimited = document.getElementById('p-unlimited').checked;
           const payload = {
             name: document.getElementById('p-name').value,
             description: document.getElementById('p-desc').value,
-            price: parseInt(document.getElementById('p-price').value) || 0
+            price: parseInt(document.getElementById('p-price').value) || 0,
+            unlimited: unlimited,
+            stok: unlimited ? 0 : (parseInt(document.getElementById('p-stok').value) || 0)
           };
+
+          if (!payload.name) {
+            alert('Product name is required');
+            return;
+          }
+
+          if (!payload.price || payload.price <= 0) {
+            alert('Price must be greater than 0');
+            return;
+          }
 
           try {
             let result;
@@ -848,7 +902,10 @@
               result = await supabaseClient.from('products').insert([payload]);
             }
 
-            if (result.error) throw result.error;
+            if (result.error) {
+              checkColumnError(result.error);
+              throw result.error;
+            }
 
             await this.fetchProducts();
             this.hideModal();
@@ -899,7 +956,7 @@
 
             AppState.links = (data || []).map(link => ({
               ...link,
-              type: isSocialUrl(link.url) ? 'social' : (link.type || 'square')
+              type: this.isSocialUrl(link.url) ? 'social' : (link.type || 'square')
             }));
           } catch (err) {
             console.error('Fetch links error:', err);
@@ -907,42 +964,64 @@
           }
         },
 
+        isSocialUrl(url) {
+          const socialDomains = [
+            'instagram.com', 'github.com', 'twitter.com', 'x.com', 
+            'youtube.com', 'youtu.be', 'tiktok.com', 'linkedin.com',
+            'facebook.com', 'whatsapp.com', 'telegram.org', 'discord.com'
+          ];
+          const l = url.toLowerCase();
+          return socialDomains.some(domain => l.includes(domain));
+        },
+
+        getSocialIcon(url) {
+          const l = url.toLowerCase();
+          if (l.includes('instagram.com')) return Icons.instagram();
+          if (l.includes('github.com')) return Icons.github();
+          if (l.includes('twitter.com') || l.includes('x.com')) return Icons.x();
+          if (l.includes('youtube.com') || l.includes('youtu.be')) return Icons.youtube();
+          if (l.includes('tiktok.com')) return Icons.tiktok();
+          if (l.includes('linkedin.com')) return Icons.linkedin();
+          if (l.includes('whatsapp.com')) return Icons.whatsapp();
+          return Icons.global();
+        },
+
         render(container) {
           const socialLinks = AppState.links.filter(l => l.type === 'social');
-          const regularLinks = AppState.links.filter(l => l.type === 'square' && !isSocialUrl(l.url));
+          const regularLinks = AppState.links.filter(l => l.type === 'square' && !this.isSocialUrl(l.url));
 
           container.innerHTML = `
-            <div class="p-5 pb-24">
-              <div class="max-w-3xl mx-auto space-y-6">
-                <h2 class="text-2xl font-bold tracking-tight">Links</h2>
+            <div class="p-4 pb-24">
+              <div class="max-w-lg mx-auto space-y-4">
+                <h2 class="text-xl font-bold tracking-tight">Links</h2>
 
-                <div class="flex gap-3">
-                  <button id="add-social-link" class="flex-1 bg-slate-100 text-slate-700 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2">
-                    ${Icons.plus()} Add Social
+                <div class="flex gap-2">
+                  <button id="add-social-link" class="flex-1 bg-slate-100 text-slate-700 py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-1">
+                    ${Icons.plus()} Social
                   </button>
-                  <button id="add-regular-link" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-semibold flex items-center justify-center gap-2">
-                    ${Icons.plus()} Add Link
+                  <button id="add-regular-link" class="flex-1 bg-indigo-600 text-white py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-1">
+                    ${Icons.plus()} Link
                   </button>
                 </div>
 
-                <div class="flex gap-2 border-b border-slate-200 pb-4">
-                  <button class="tab-btn ${AppState.activeTab === 'all' ? 'active' : ''}" data-tab="all">
+                <div class="flex gap-1 border-b border-slate-200 pb-3">
+                  <button class="tab-btn px-4 py-2 rounded-full text-xs font-medium ${AppState.activeTab === 'all' ? 'bg-slate-900 text-white' : 'text-slate-500'}" data-tab="all">
                     All (${AppState.links.length})
                   </button>
-                  <button class="tab-btn ${AppState.activeTab === 'social' ? 'active' : ''}" data-tab="social">
+                  <button class="tab-btn px-4 py-2 rounded-full text-xs font-medium ${AppState.activeTab === 'social' ? 'bg-slate-900 text-white' : 'text-slate-500'}" data-tab="social">
                     Social (${socialLinks.length})
                   </button>
-                  <button class="tab-btn ${AppState.activeTab === 'regular' ? 'active' : ''}" data-tab="regular">
+                  <button class="tab-btn px-4 py-2 rounded-full text-xs font-medium ${AppState.activeTab === 'regular' ? 'bg-slate-900 text-white' : 'text-slate-500'}" data-tab="regular">
                     Links (${regularLinks.length})
                   </button>
                 </div>
 
-                <div id="all-links" class="links-container ${AppState.activeTab !== 'all' ? 'hidden' : ''}"></div>
-                <div id="social-links" class="links-container ${AppState.activeTab !== 'social' ? 'hidden' : ''}"></div>
-                <div id="regular-links" class="links-container ${AppState.activeTab !== 'regular' ? 'hidden' : ''}"></div>
+                <div id="all-links" class="links-container space-y-2 ${AppState.activeTab !== 'all' ? 'hidden' : ''}"></div>
+                <div id="social-links" class="links-container space-y-2 ${AppState.activeTab !== 'social' ? 'hidden' : ''}"></div>
+                <div id="regular-links" class="links-container space-y-2 ${AppState.activeTab !== 'regular' ? 'hidden' : ''}"></div>
 
-                <div class="fixed bottom-20 left-0 right-0 p-5 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
-                  <button id="save-links" class="btn-primary max-w-3xl mx-auto block pointer-events-auto shadow-lg">
+                <div class="fixed bottom-20 left-0 right-0 p-4 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none">
+                  <button id="save-links" class="btn-primary max-w-lg mx-auto block pointer-events-auto shadow-lg">
                     Save Changes
                   </button>
                 </div>
@@ -960,8 +1039,10 @@
 
           document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-              document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-              btn.classList.add('active');
+              document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-slate-900', 'text-white'));
+              document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('text-slate-500'));
+              btn.classList.add('bg-slate-900', 'text-white');
+              btn.classList.remove('text-slate-500');
               
               AppState.activeTab = btn.dataset.tab;
               
@@ -981,52 +1062,50 @@
 
           if (linksToRender.length === 0) {
             container.innerHTML = `
-              <div class="card p-8 text-center text-slate-500">
+              <div class="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-100">
                 ${Icons.alert()}
-                <p class="mt-2">No ${type} links yet.</p>
+                <p class="mt-2 text-sm">No ${type} links yet.</p>
               </div>
             `;
             return;
           }
 
           container.innerHTML = linksToRender.map(link => `
-            <div class="link-item ${link.type === 'social' ? 'border-l-4' : ''}" 
+            <div class="bg-white rounded-2xl border border-slate-100 p-4 relative" 
                  data-id="${link.id}" 
-                 data-type="${link.type}"
-                 style="${link.type === 'social' ? 'border-left-color: ' + AppState.profile.text_color : ''}">
+                 data-type="${link.type}">
               
-              <div class="drag-handle">
+              <div class="drag-handle absolute left-3 top-1/2 transform -translate-y-1/2 cursor-grab text-slate-400">
                 ${Icons.drag()}
               </div>
               
-              <button class="delete-link" aria-label="Hapus link"></button>
-              
-              <div class="link-content">
-                <div class="flex items-center gap-3 mb-3">
-                  ${link.type === 'social' ? `
-                    <span class="w-9 h-9 rounded-full bg-white shadow-sm flex items-center justify-center" style="color: ${AppState.profile.text_color}">
-                      ${getSocialIcon(link.url)}
-                    </span>
-                  ` : ''}
-                  <select class="link-type bg-slate-100 border-0 rounded-full px-4 py-2 text-sm font-semibold outline-none">
+              <div class="ml-8 mr-8">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center" style="color: ${AppState.profile.text_color}">
+                    ${this.getSocialIcon(link.url)}
+                  </span>
+                  <select class="link-type bg-slate-100 border-0 rounded-full px-2 py-1 text-xs font-medium outline-none">
                     <option value="square" ${link.type === 'square' ? 'selected' : ''}>Card</option>
                     <option value="social" ${link.type === 'social' ? 'selected' : ''}>Social</option>
                   </select>
                 </div>
                 
-                <input class="link-title bg-transparent w-full text-lg font-semibold outline-none placeholder:text-slate-300 mb-2" 
+                <input class="link-title bg-transparent w-full text-sm font-semibold outline-none mb-1" 
                        value="${(link.title || '').replace(/"/g, '&quot;')}" 
                        placeholder="Link title" />
                        
-                <input class="link-url bg-transparent w-full text-sm text-slate-500 outline-none" 
+                <input class="link-url bg-transparent w-full text-xs text-slate-500 outline-none" 
                        value="${(link.url || '').replace(/"/g, '&quot;')}" 
                        placeholder="https://..." />
               </div>
+              
+              <button class="delete-link absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-red-500">
+                ${Icons.trash()}
+              </button>
             </div>
           `).join('');
 
           container.querySelectorAll('.delete-link').forEach(btn => {
-            btn.innerHTML = Icons.trash();
             btn.addEventListener('click', (e) => {
               e.stopPropagation();
               const id = e.target.closest('[data-id]')?.dataset.id;
@@ -1058,7 +1137,7 @@
               const link = AppState.links.find(l => l.id === id);
               if (link) {
                 link.url = e.target.value;
-                if (isSocialUrl(link.url)) {
+                if (this.isSocialUrl(link.url)) {
                   link.type = 'social';
                 }
               }
@@ -1068,7 +1147,7 @@
 
         initSortableForContainer(type) {
           const container = document.getElementById(`${type}-links`);
-          if (!container || container.children.length === 0 || container.children[0].classList.contains('card')) return;
+          if (!container || container.children.length === 0 || container.children[0].classList.contains('bg-white') && container.children[0].innerText.includes('No')) return;
 
           if (AppState.sortableInstances[type]) {
             AppState.sortableInstances[type].destroy();
@@ -1125,7 +1204,7 @@
             if (!error && data) {
               AppState.links.push({
                 ...data,
-                type: isSocialUrl(data.url) ? 'social' : data.type
+                type: this.isSocialUrl(data.url) ? 'social' : data.type
               });
               renderApp();
             } else {
@@ -1195,27 +1274,24 @@
         }
 
         app.innerHTML = `
-          <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 px-5 py-3">
-            <div class="flex items-center justify-between max-w-7xl mx-auto">
-              <div class="flex items-center gap-3">
-                <h1 class="font-bold text-xl tracking-tight">progresix<span class="text-blue-600">.</span></h1>
-                <span class="status-badge hidden sm:inline-block">
-                  ${AppState.session.user?.email?.split('@')[0] || 'admin'}
-                </span>
+          <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 px-4 py-2.5">
+            <div class="flex items-center justify-between max-w-lg mx-auto">
+              <div class="flex items-center gap-2">
+                <h1 class="font-bold text-lg tracking-tight">progresix<span class="text-blue-600">.</span></h1>
               </div>
               
-              <div class="flex items-center gap-3">
-                <a href="${CONFIG.PUBLIC_URL}" target="_blank" class="btn-secondary py-2 px-4 text-sm hidden sm:flex items-center gap-2">
+              <div class="flex items-center gap-2">
+                <a href="${CONFIG.PUBLIC_URL}" target="_blank" class="bg-slate-100 text-slate-600 p-2 rounded-xl text-xs flex items-center gap-1">
                   ${Icons.share()} Preview
                 </a>
-                <button id="logout-btn" class="btn-secondary py-2 px-4 text-sm text-red-600 border-red-200">
+                <button id="logout-btn" class="bg-slate-100 text-red-500 p-2 rounded-xl text-xs">
                   Logout
                 </button>
               </div>
             </div>
           </header>
 
-          <main id="main-content" class="flex-1 overflow-y-auto scrollbar-thin" style="height: calc(100vh - 120px);">
+          <main id="main-content" class="flex-1 overflow-y-auto scrollbar-thin" style="height: calc(100vh - 110px);">
             <!-- Content will be injected here -->
           </main>
 
@@ -1269,8 +1345,8 @@
             app.innerHTML = `
               <div class="flex items-center justify-center min-h-screen">
                 <div class="text-center">
-                  <div class="spinner mx-auto mb-4"></div>
-                  <p class="text-slate-600">Loading your dashboard...</p>
+                  <div class="spinner mx-auto mb-3"></div>
+                  <p class="text-slate-600 text-sm">Loading your dashboard...</p>
                 </div>
               </div>
             `;
@@ -1290,8 +1366,8 @@
           app.innerHTML = `
             <div class="flex items-center justify-center min-h-screen p-5">
               <div class="text-center">
-                <p class="text-red-600 mb-4">Failed to initialize</p>
-                <button onclick="location.reload()" class="btn-primary max-w-xs mx-auto">
+                <p class="text-red-600 mb-3 text-sm">Failed to initialize</p>
+                <button onclick="location.reload()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl text-sm font-semibold">
                   Retry
                 </button>
               </div>
@@ -1302,6 +1378,7 @@
 
       // Expose Products to global for onclick handlers
       window.Products = Products;
+      window.Links = Links;
     })();
   </script>
 </body>
